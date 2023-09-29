@@ -12,7 +12,19 @@ module.exports = {
     ecmaVersion: 2020,
   },
   rules: {
+    'import/no-extraneous-dependencies':
+      ['error',
+        {
+          devDependencies: false,
+          optionalDependencies: false,
+          peerDependencies: false,
+        },
+      ],
+    'import/prefer-default-export': 'off',
+    'no-shadow': 'off',
+    '@typescript-eslint/no-shadow': 'warn',
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
+    'max-len': 'off',
   },
 };

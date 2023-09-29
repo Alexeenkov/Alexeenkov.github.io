@@ -56,7 +56,8 @@ button {
     display: flex;
     flex-direction: column;
     gap: 3.2rem;
-    width: 34rem;
+    width: 100%;
+    max-width: 55rem;
 }
 
 .app-header {
@@ -93,12 +94,12 @@ button {
 .text-input {
     display: flex;
     align-items: center;
-    padding: 0.8rem 1.6rem;
     box-sizing: border-box;
     font: inherit;
     font-size: 1.6rem;
     border: 0.1rem solid var(--light-color);
     border-radius: 1.6rem;
+    overflow: hidden;
 }
 
 .text-input--focus {
@@ -109,6 +110,7 @@ button {
     flex-grow: 1;
     padding: 0;
     border: none;
+    padding: 0.8rem 1.6rem;
 }
 
 .text-input .input:focus {
@@ -149,6 +151,12 @@ button {
     margin: 0;
     padding: 0;
     list-style: none;
+    width: 100%;
+}
+
+.todo-list-wrapper {
+    display: flex;
+    justify-content: center;
 }
 
 .todo-item {
@@ -173,6 +181,8 @@ button {
 
 .todo-item__text {
     font-weight: 400;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .todo-item--high .todo-item__text {

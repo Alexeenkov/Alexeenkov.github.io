@@ -5,15 +5,17 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue';
-import { Stats } from '@/types/Stats';
+import { defineComponent, toRefs } from 'vue';
+import { useTodosStore } from '@/stores/todosStore';
 
 export default defineComponent({
-  props: {
-    stats: {
-      type: Object as PropType<Stats>,
-      required: true,
-    },
+  name: 'AppFooter',
+  setup() {
+    const { stats } = toRefs(useTodosStore());
+
+    return {
+      stats,
+    };
   },
 });
 </script>

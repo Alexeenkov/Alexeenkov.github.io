@@ -2,8 +2,8 @@
   <aside class="app-filters">
     <section class="toggle-group">
       <button
-        v-for="filter in filters"
-        :key="filter"
+        v-for="(filter, index) in filters"
+        :key="`${filter}-${index}`"
         @click="setFilter(filter)"
         class="button"
         :class="buttonClasses(filter)"
@@ -17,48 +17,31 @@
 <script lang="ts">
 import {
   defineComponent,
-  PropType,
   toRefs,
   unref,
 } from 'vue';
-import { Filter } from '@/types/Filter';
-
-interface State {
-  filters: Filter[],
-}
+import { Filter } from '@/interfaces/Filter';
+import { useTodosStore } from '@/stores/todosStore';
+import { Filters } from '@/constants/Filters';
 
 export default defineComponent({
-  data(): State {
-    return {
-      filters: [
-        'All',
-        'Active',
-        'Done',
-      ],
-    };
-  },
-  props: {
-    activeFilter: {
-      type: String as PropType<Filter>,
-      required: true,
-    },
-  },
-  methods: {
-    setFilter(filter: Filter) {
-      this.$emit('setFilter', filter);
-    },
-  },
-  emits: {
-    setFilter: (filter: Filter) => filter,
-  },
-  setup(props) {
-    const { activeFilter } = toRefs(props);
+  name: 'AppFilters',
+  setup() {
+    const { activeFilter, setFilter } = toRefs(useTodosStore());
+
+    const filters = [
+      Filters.ALL,
+      Filters.ACTIVE,
+      Filters.DONE,
+    ];
 
     const buttonClasses = (filter: Filter) => ({
       'button--primary': unref(activeFilter) === filter,
     });
 
     return {
+      filters,
+      setFilter,
       buttonClasses,
     };
   },

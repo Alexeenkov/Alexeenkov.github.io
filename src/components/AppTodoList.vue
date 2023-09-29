@@ -1,40 +1,56 @@
 <template>
-  <ul class="todo-list">
-    <AppTodoItem
-      v-for="todo in todos"
-      :key="todo.id"
-      @toggleTodo="toggleTodo"
-      @removeTodo="removeTodo"
-      :todo="todo"
-    />
-  </ul>
+  <div class="todo-list-wrapper">
+    <ul
+      v-if="filteredTodos.length"
+      class="todo-list"
+    >
+      <AppTodoItem
+        v-for="todo in filteredTodos"
+        :key="todo.id"
+        :todo="todo"
+      />
+    </ul>
+    <span v-else>
+      {{ emptyMessage }}
+    </span>
+  </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue';
-import { Todo } from '@/types/Todo';
+import {
+  computed,
+  defineComponent,
+  unref,
+  toRefs,
+} from 'vue';
+import { useTodosStore } from '@/stores/todosStore';
+import { Filters } from '@/constants/Filters';
 import AppTodoItem from './AppTodoItem.vue';
 
 export default defineComponent({
+  name: 'AppTodoList',
   components: {
     AppTodoItem,
   },
-  props: {
-    todos: {
-      type: Array as PropType<Todo[]>,
-    },
-  },
-  methods: {
-    toggleTodo(id: number) {
-      this.$emit('toggleTodo', id);
-    },
-    removeTodo(id: number) {
-      this.$emit('removeTodo', id);
-    },
-  },
-  emits: {
-    toggleTodo: (id: number) => Number.isInteger(id),
-    removeTodo: (id: number) => Number.isInteger(id),
+  setup() {
+    const { filteredTodos, activeFilter } = toRefs(useTodosStore());
+
+    const emptyMessage = computed((): string => {
+      switch (unref(activeFilter)) {
+        case (Filters.DONE):
+          return 'You have not completed any tasks';
+        case (Filters.ACTIVE):
+          return 'No active tasks';
+        case Filters.ALL:
+        default:
+          return 'Add your first task';
+      }
+    });
+
+    return {
+      filteredTodos,
+      emptyMessage,
+    };
   },
 });
 </script>

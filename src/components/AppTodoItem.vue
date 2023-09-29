@@ -1,7 +1,10 @@
 <template>
-  <li class="todo-item" :class="todoItemClasses">
+  <li
+    class="todo-item"
+    :class="todoItemClasses"
+  >
     <button
-      @click="toggleTodo"
+      @click="toggleTodo(todo.id)"
       type="button"
       class="todo-item__button"
     >
@@ -12,7 +15,7 @@
         {{ todo.text }}
       </span>
       <button
-        @click.stop="removeTodo"
+        @click.stop="removeTodo(todo.id)"
         type="button"
         class="todo-item__remove-button"
       >
@@ -30,35 +33,28 @@ import {
   toRefs,
   unref,
 } from 'vue';
-import { Todo } from '@/types/Todo';
+import { Todo } from '@/interfaces/Todo';
+import { useTodosStore } from '@/stores/todosStore';
 
 export default defineComponent({
+  name: 'AppTodoItem',
   props: {
     todo: {
       type: Object as PropType<Todo>,
       required: true,
     },
   },
-  methods: {
-    toggleTodo() {
-      this.$emit('toggleTodo', this.todo.id);
-    },
-    removeTodo() {
-      this.$emit('removeTodo', this.todo.id);
-    },
-  },
-  emits: {
-    toggleTodo: (id: number) => Number.isInteger(id),
-    removeTodo: (id: number) => Number.isInteger(id),
-  },
   setup(props) {
     const { todo } = toRefs(props);
+    const { toggleTodo, removeTodo } = useTodosStore();
 
     const todoItemClasses = computed(() => ({
       'todo-item--done': unref(todo).completed,
     }));
 
     return {
+      toggleTodo,
+      removeTodo,
       todoItemClasses,
     };
   },
