@@ -5,6 +5,7 @@ import {
   computed,
   ComputedRef,
   unref,
+  watch,
 } from 'vue';
 import { Todo } from '@/interfaces/Todo';
 import { Stats } from '@/interfaces/Stats';
@@ -12,23 +13,7 @@ import { Filter } from '@/interfaces/Filter';
 import { Filters } from '@/constants/Filters';
 
 export const useTodosStore = defineStore('todos', () => {
-  const todos: Ref<Todo[]> = ref([
-    {
-      id: 0,
-      text: 'Learn the basics of Vue',
-      completed: true,
-    },
-    {
-      id: 1,
-      text: 'Learn the basics of Typescript',
-      completed: false,
-    },
-    {
-      id: 2,
-      text: 'Subscribe to the channel',
-      completed: false,
-    },
-  ]);
+  const todos: Ref<Todo[]> = ref([]);
 
   const activeFilter = ref(Filters.ALL);
 
@@ -71,6 +56,15 @@ export const useTodosStore = defineStore('todos', () => {
       targetTodo.completed = !targetTodo.completed;
     }
   };
+
+  const todosInLocalStorage = localStorage.getItem('todos');
+  if (todosInLocalStorage) {
+    todos.value = JSON.parse(todosInLocalStorage)._value;
+  }
+
+  watch(() => todos, (state) => {
+    localStorage.setItem('todos', JSON.stringify(state));
+  }, { deep: true });
 
   return {
     todos,
