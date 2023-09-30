@@ -13,7 +13,10 @@
         <i class="bi bi-x"></i>
       </button>
       <div class="todos-form-add__input todos-form-add__input--focus">
-        <input v-model="todoText"/>
+        <input
+          v-autofocus
+          v-model="todoText"
+        />
       </div>
       <button class="button button--filled">
         Add task
@@ -36,19 +39,20 @@ import { useTodosStore } from '@/stores/todosStore';
 export default defineComponent({
   name: 'TodosFormAdd',
   setup() {
-    const { addTodo } = useTodosStore();
+    const { addTodo, cancelEditTodo } = useTodosStore();
     const isFormVisible = ref(false);
     const todoText = ref('');
 
     const showForm = (): void => {
       isFormVisible.value = true;
+      cancelEditTodo();
     };
 
     const closeForm = (): void => {
       isFormVisible.value = false;
     };
 
-    const addNewTask = () => {
+    const addNewTask = (): void => {
       addTodo({
         id: Date.now(),
         text: todoText.value,
@@ -56,6 +60,7 @@ export default defineComponent({
       });
 
       todoText.value = '';
+      closeForm();
     };
 
     return {

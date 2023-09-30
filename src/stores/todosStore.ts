@@ -11,11 +11,15 @@ import { Todo } from '@/interfaces/Todo';
 import { Stats } from '@/interfaces/Stats';
 import { Filter } from '@/interfaces/Filter';
 import { Filters } from '@/constants/Filters';
+import { TodoEditing } from '@/interfaces/TodoEditing';
 
 export const useTodosStore = defineStore('todos', () => {
   const todos: Ref<Todo[]> = ref([]);
-
   const activeFilter = ref(Filters.ALL);
+  const todoEditing: Ref<TodoEditing> = ref({
+    editing: false,
+    id: null,
+  });
 
   const activeTodos: ComputedRef<Todo[]> = computed(() => unref(todos).filter((todo) => !todo.completed));
   const doneTodos: ComputedRef<Todo[]> = computed(() => unref(todos).filter((todo) => todo.completed));
@@ -37,8 +41,14 @@ export const useTodosStore = defineStore('todos', () => {
     }
   });
 
+  const cancelEditTodo = () => {
+    todoEditing.value.editing = false;
+    todoEditing.value.id = null;
+  };
+
   const setFilter = (filter: Filter): void => {
     activeFilter.value = filter;
+    cancelEditTodo();
   };
 
   const removeTodo = (id: number): void => {
@@ -57,7 +67,24 @@ export const useTodosStore = defineStore('todos', () => {
     }
   };
 
+  const editTodo = (id: number): void => {
+    todoEditing.value.editing = true;
+    todoEditing.value.id = id;
+  };
+
+  const saveEditingTodo = (id: number, newText: string): void => {
+    const targetTodo = unref(todos).find((todo: Todo) => todo.id === id);
+
+    if (targetTodo) {
+      targetTodo.text = newText;
+      targetTodo.completed = false;
+    }
+
+    cancelEditTodo();
+  };
+
   const todosInLocalStorage = localStorage.getItem('todos');
+
   if (todosInLocalStorage) {
     todos.value = JSON.parse(todosInLocalStorage)._value;
   }
@@ -71,9 +98,13 @@ export const useTodosStore = defineStore('todos', () => {
     filteredTodos,
     activeFilter,
     stats,
+    todoEditing,
     setFilter,
     removeTodo,
     addTodo,
+    editTodo,
     toggleTodo,
+    cancelEditTodo,
+    saveEditingTodo,
   };
 });
