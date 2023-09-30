@@ -1,8 +1,8 @@
 <template>
-  <div class="todo-list-wrapper">
+  <div class="todos-list">
     <ul
       v-if="filteredTodos.length"
-      class="todo-list"
+      class="todos-list__items"
     >
       <AppTodoItem
         v-for="todo in filteredTodos"
@@ -21,19 +21,19 @@ import {
   computed,
   defineComponent,
   unref,
-  toRefs,
 } from 'vue';
 import { useTodosStore } from '@/stores/todosStore';
 import { Filters } from '@/constants/Filters';
-import AppTodoItem from './AppTodoItem.vue';
+import { storeToRefs } from 'pinia';
+import AppTodoItem from './TodosListItem.vue';
 
 export default defineComponent({
-  name: 'AppTodoList',
+  name: 'TodosList',
   components: {
     AppTodoItem,
   },
   setup() {
-    const { filteredTodos, activeFilter } = toRefs(useTodosStore());
+    const { filteredTodos, activeFilter } = storeToRefs(useTodosStore());
 
     const emptyMessage = computed((): string => {
       switch (unref(activeFilter)) {
@@ -54,3 +54,7 @@ export default defineComponent({
   },
 });
 </script>
+
+<style scoped lang="scss">
+  @import "@/components/TodosList/styles/todos-list";
+</style>

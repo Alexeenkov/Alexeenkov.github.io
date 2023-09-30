@@ -40,10 +40,6 @@ export const useTodosStore = defineStore('todos', () => {
     done: unref(doneTodos).length,
   }));
 
-  const setFilter = (filter: Filter): void => {
-    activeFilter.value = filter;
-  };
-
   const filteredTodos: ComputedRef<Todo[]> = computed(() => {
     switch (unref(activeFilter)) {
       case (Filters.DONE):
@@ -55,6 +51,10 @@ export const useTodosStore = defineStore('todos', () => {
         return unref(todos);
     }
   });
+
+  const setFilter = (filter: Filter): void => {
+    activeFilter.value = filter;
+  };
 
   const removeTodo = (id: number): void => {
     todos.value = unref(todos).filter((todo: Todo) => todo.id !== id);

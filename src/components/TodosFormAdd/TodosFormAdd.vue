@@ -1,22 +1,19 @@
 <template>
-  <section class="add-todo">
+  <section class="todos-form-add">
     <form
       v-if="isFormVisible"
       @submit.prevent="addNewTask"
-      class="add-todo__form"
+      class="todos-form-add__form"
     >
       <button
         @click="closeForm"
         type="button"
-        class="close-button"
+        class="todos-form-add__close"
       >
         <i class="bi bi-x"></i>
       </button>
-      <div class="text-input text-input--focus">
-        <input
-          v-model="todoText"
-          class="input"
-        />
+      <div class="todos-form-add__input todos-form-add__input--focus">
+        <input v-model="todoText"/>
       </div>
       <button class="button button--filled">
         Add task
@@ -25,7 +22,7 @@
     <button
       v-else
       @click="showForm"
-      class="add-todo__show-form-button"
+      class="todos-form-add__show-form"
     >
       <i class="bi bi-plus-lg"></i>
     </button>
@@ -37,7 +34,7 @@ import { defineComponent, ref } from 'vue';
 import { useTodosStore } from '@/stores/todosStore';
 
 export default defineComponent({
-  name: 'AppAddTodo',
+  name: 'TodosFormAdd',
   setup() {
     const { addTodo } = useTodosStore();
     const isFormVisible = ref(false);
@@ -72,3 +69,7 @@ export default defineComponent({
   },
 });
 </script>
+
+<style scoped lang="scss">
+  @import "@/components/TodosFormAdd/styles/todos-form-add";
+</style>

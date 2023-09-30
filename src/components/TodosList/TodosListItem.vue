@@ -1,26 +1,35 @@
 <template>
   <li
-    class="todo-item"
+    class="todos-item"
     :class="todoItemClasses"
   >
     <button
       @click="toggleTodo(todo.id)"
       type="button"
-      class="todo-item__button"
+      class="todos-item__button"
     >
-      <div class="todo-item__status">
+      <div class="todos-item__status">
         <i class="bi bi-check2"></i>
       </div>
-      <span class="todo-item__text">
+      <span class="todos-item__text">
         {{ todo.text }}
       </span>
-      <button
-        @click.stop="removeTodo(todo.id)"
-        type="button"
-        class="todo-item__remove-button"
-      >
-        <i class="bi bi-trash3"></i>
-      </button>
+      <div class="todos-item__buttons">
+        <button
+          @click.stop
+          type="button"
+          class="todos-item__edit"
+        >
+          <i class="bi bi-pencil"></i>
+        </button>
+        <button
+          @click.stop="removeTodo(todo.id)"
+          type="button"
+          class="todos-item__remove"
+        >
+          <i class="bi bi-trash3"></i>
+        </button>
+      </div>
     </button>
   </li>
 </template>
@@ -37,7 +46,7 @@ import { Todo } from '@/interfaces/Todo';
 import { useTodosStore } from '@/stores/todosStore';
 
 export default defineComponent({
-  name: 'AppTodoItem',
+  name: 'TodosItem',
   props: {
     todo: {
       type: Object as PropType<Todo>,
@@ -49,7 +58,7 @@ export default defineComponent({
     const { toggleTodo, removeTodo } = useTodosStore();
 
     const todoItemClasses = computed(() => ({
-      'todo-item--done': unref(todo).completed,
+      'todos-item--done': unref(todo).completed,
     }));
 
     return {
@@ -60,3 +69,7 @@ export default defineComponent({
   },
 });
 </script>
+
+<style scoped lang="scss">
+  @import "@/components/TodosList/styles/todos-list-item";
+</style>

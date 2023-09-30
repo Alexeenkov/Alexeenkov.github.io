@@ -1,0 +1,56 @@
+
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  margin: 0;
+  padding: 6.4rem 1.2rem;
+  font-family: 'Roboto', sans-serif;
+  font-size: 1.6rem;
+  color: var(--default-color)
+}
+
+#app {
+  display: flex;
+  flex-direction: column;
+  gap: 3.2rem;
+  width: 100%;
+  max-width: 55rem;
+}
+
+a {
+  text-decoration: none;
+}
+
+button {
+  padding: 0;
+  font: inherit;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.button {
+  font-size: 1.6rem;
+  padding: 0.6rem 1rem;
+  border-radius: 1.6rem;
+
+  &--primary {
+    color: var(--primary-color);
+    border: 2px solid var(--primary-color);
+
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+
+  &--filled {
+    padding: 0.8rem 1rem;
+    color: var(--reverse-color);
+    background-color: var(--primary-color);
+  }
+}

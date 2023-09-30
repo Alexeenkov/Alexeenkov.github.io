@@ -1,33 +1,33 @@
 <template>
-  <aside class="app-filters">
-    <section class="toggle-group">
-      <button
-        v-for="(filter, index) in filters"
-        :key="`${filter}-${index}`"
-        @click="setFilter(filter)"
-        class="button"
-        :class="buttonClasses(filter)"
-      >
-        {{ filter }}
-      </button>
-    </section>
+  <aside class="todos-filters">
+    <button
+      v-for="(filter, index) in filters"
+      :key="`${filter}-${index}`"
+      @click="setFilter(filter)"
+      class="todos-filters__button button"
+      :class="buttonClasses(filter)"
+    >
+      {{ filter }}
+    </button>
   </aside>
 </template>
 
 <script lang="ts">
 import {
   defineComponent,
-  toRefs,
   unref,
 } from 'vue';
 import { Filter } from '@/interfaces/Filter';
 import { useTodosStore } from '@/stores/todosStore';
 import { Filters } from '@/constants/Filters';
+import { storeToRefs } from 'pinia';
 
 export default defineComponent({
-  name: 'AppFilters',
+  name: 'TodosFilters',
   setup() {
-    const { activeFilter, setFilter } = toRefs(useTodosStore());
+    const todosStore = useTodosStore();
+    const { activeFilter } = storeToRefs(todosStore);
+    const { setFilter } = todosStore;
 
     const filters = [
       Filters.ALL,
@@ -47,3 +47,7 @@ export default defineComponent({
   },
 });
 </script>
+
+<style scoped lang="scss">
+  @import "@/components/TodosFilters/styles/todos-filters";
+</style>
