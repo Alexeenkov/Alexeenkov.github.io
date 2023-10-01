@@ -1,0 +1,9 @@
+.todos-page {
+  &__filters {
+    flex-grow: 1;
+  }
+
+  &__sort {
+    margin-left: 1rem;
+  }
+}

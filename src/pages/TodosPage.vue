@@ -1,14 +1,15 @@
 <template>
-  <LayoutDefault>
+  <LayoutDefault class="todos-page">
     <template #filters>
-      <TodosFilters />
+      <TodosFilters class="todos-page__filters"/>
+      <TodosSortBtn class="todos-page__sort"/>
     </template>
 
-    <TodosList />
-    <TodosFormAdd />
+    <TodosList/>
+    <TodosFormAdd/>
 
     <template #footer>
-      <TodosFooter />
+      <TodosFooter/>
     </template>
   </LayoutDefault>
 </template>
@@ -19,4 +20,9 @@ import TodosList from '@/components/TodosList/TodosList.vue';
 import TodosFormAdd from '@/components/TodosFormAdd/TodosFormAdd.vue';
 import TodosFooter from '@/components/TodosFooter/TodosFooter.vue';
 import LayoutDefault from '@/layouts/LayoutDefault.vue';
+import TodosSortBtn from '@/components/TodosSortBtn/TodosSortBtn.vue';
 </script>
+
+<style scoped lang="scss">
+  @import "@/pages/styles/todos-page";
+</style>

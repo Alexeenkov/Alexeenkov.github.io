@@ -1,0 +1,11 @@
+.todos-sort-btn {
+  border: 0.1rem solid var(--light-color);
+  border-radius: 1rem;
+  font-size: 2.1rem;
+  padding: 0.5rem;
+  min-width: 3.7rem;
+
+  &:hover {
+    color: var(--primary-color);
+  }
+}

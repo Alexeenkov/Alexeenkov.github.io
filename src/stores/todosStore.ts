@@ -16,6 +16,7 @@ import { EditableTodo } from '@/interfaces/EditableTodo';
 export const useTodosStore = defineStore('todos', () => {
   const todos: Ref<Todo[]> = ref([]);
   const activeFilter = ref(Filters.ALL);
+  const isSortEarlyFirst = ref(true);
   const editableTodo: Ref<EditableTodo> = ref({
     isEditing: false,
     id: null,
@@ -40,6 +41,19 @@ export const useTodosStore = defineStore('todos', () => {
         return unref(todos);
     }
   });
+
+  const sortTodosByDate = (): void => {
+    if (unref(isSortEarlyFirst)) {
+      todos.value.sort((a: Todo, b: Todo) => a.date - b.date);
+      return;
+    }
+    todos.value.sort((a: Todo, b: Todo) => b.date - a.date);
+  };
+
+  const toggleSortOrder = (): void => {
+    isSortEarlyFirst.value = !unref(isSortEarlyFirst);
+    sortTodosByDate();
+  };
 
   const cancelEditTodo = () => {
     editableTodo.value.isEditing = false;
@@ -78,7 +92,7 @@ export const useTodosStore = defineStore('todos', () => {
     if (targetTodo) {
       targetTodo.text = newText;
       targetTodo.completed = false;
-      targetTodo.date = date;
+      targetTodo.date = date.getTime();
     }
 
     cancelEditTodo();
@@ -88,18 +102,22 @@ export const useTodosStore = defineStore('todos', () => {
 
   if (todosInLocalStorage) {
     todos.value = JSON.parse(todosInLocalStorage)._value;
+    sortTodosByDate();
   }
 
   watch(() => todos, (state) => {
     localStorage.setItem('todos', JSON.stringify(state));
+    sortTodosByDate();
   }, { deep: true });
 
   return {
     todos,
-    filteredTodos,
     activeFilter,
-    stats,
+    isSortEarlyFirst,
     editableTodo,
+    filteredTodos,
+    stats,
+    toggleSortOrder,
     setFilter,
     removeTodo,
     addTodo,

@@ -68,7 +68,7 @@ const addNewTask = (): void => {
     id: Date.now(),
     text: todoText.value,
     completed: false,
-    date: newDate.value,
+    date: newDate.value.getTime(),
   });
 
   todoText.value = '';
