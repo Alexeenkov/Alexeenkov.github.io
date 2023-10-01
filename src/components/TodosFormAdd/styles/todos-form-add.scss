@@ -11,11 +11,16 @@
     box-shadow: 0 1px 20px rgb(240 240 240 / 80%);
   }
 
+  &__input-container {
+    display: flex;
+  }
+
   &__input {
     display: flex;
     align-items: center;
     box-sizing: border-box;
     font: inherit;
+    width: 100%;
     font-size: 1.6rem;
     border: 0.1rem solid var(--light-color);
     border-radius: 1.6rem;
@@ -33,6 +38,26 @@
       &:focus {
         outline: none;
       }
+    }
+  }
+
+  &__datepicker {
+    --dp-font-size: 1.4rem !important;
+    --dp-preview-font-size: 1.6rem !important;
+    --dp-border-radius: 1.6rem !important;
+    --dp-border-color: var(--primary-color);
+    --dp-border-color-hover: var(--primary-color);
+    --dp-input-padding: 0.6rem 1rem;
+
+    max-width: 10.5rem;
+    margin-left: 1rem;
+
+    ::v-deep(.dp__input) {
+      border-width: 0.2rem;
+    }
+
+    ::v-deep(.dp__theme_light) {
+      --dp-primary-color: var(--primary-color) !important;
     }
   }
 

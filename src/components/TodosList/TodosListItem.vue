@@ -17,7 +17,22 @@
           v-if="editingThisTodo"
           v-autofocus
           v-model="newText"
-          class="todos-item__textarea"/>
+          class="todos-item__textarea"
+        />
+      </div>
+      <div class="todos-item__date">
+        <template v-if="!editingThisTodo">
+          {{ day }}.{{ month }}.{{ year }}
+        </template>
+        <VueDatePicker
+          v-else
+          v-model="newDate"
+          :enableTimePicker="false"
+          :clearable="false"
+          :minDate="dateToday"
+          :format="formatDatepicker(newDate)"
+          class="todos-item__datepicker"
+        />
       </div>
       <div class="todos-item__buttons">
         <button
@@ -71,6 +86,7 @@ import {
 import { Todo } from '@/interfaces/Todo';
 import { useTodosStore } from '@/stores/todosStore';
 import { storeToRefs } from 'pinia';
+import { useDate } from '@/features/useDate';
 
 export default defineComponent({
   name: 'TodosItem',
@@ -91,8 +107,19 @@ export default defineComponent({
       saveEditingTodo,
       cancelEditTodo,
     } = todosStore;
+    const { dateParser, formatDatepicker } = useDate();
     const newText: Ref<string> = ref(unref(todo).text);
+
+    const dateTodo = new Date(unref(todo).date);
+    const newDate = ref(dateTodo);
+    const dateToday = new Date();
+
     const editingThisTodo = computed(() => unref(todoEditing).editing && unref(todoEditing).id === unref(todo).id);
+    const {
+      day,
+      month,
+      year,
+    } = dateParser(dateTodo);
 
     const todoItemClasses = computed(() => ({
       'todos-item--done': unref(todo).completed && !unref(editingThisTodo),
@@ -121,13 +148,19 @@ export default defineComponent({
 
     return {
       newText,
+      newDate,
+      dateToday,
+      day,
+      month,
+      year,
+      todoItemClasses,
+      editingThisTodo,
       toggleThisTask,
       removeTodo,
       editTodo,
       cancelEditTask,
       saveEditingTodo,
-      todoItemClasses,
-      editingThisTodo,
+      formatDatepicker,
     };
   },
 });

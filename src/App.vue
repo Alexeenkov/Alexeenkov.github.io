@@ -16,5 +16,5 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-@import "@/scss/bundle";
+  @import "@/scss/bundle";
 </style>

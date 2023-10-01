@@ -1,0 +1,16 @@
+.layout-default {
+  max-width: 55rem;
+
+  &__filters {
+    margin-bottom: 3.2rem;
+  }
+
+  &__main {
+    display: grid;
+    gap: 1.6rem;
+  }
+
+  &__footer {
+    margin-top: 3.2rem;
+  }
+}

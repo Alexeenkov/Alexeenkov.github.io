@@ -12,10 +12,20 @@
       >
         <i class="bi bi-x"></i>
       </button>
-      <div class="todos-form-add__input todos-form-add__input--focus">
-        <input
-          v-autofocus
-          v-model="todoText"
+      <div class="todos-form-add__input-container">
+        <div class="todos-form-add__input todos-form-add__input--focus">
+          <input
+            v-autofocus
+            v-model="todoText"
+          />
+        </div>
+        <VueDatePicker
+          v-model="newDate"
+          :enableTimePicker="false"
+          :minDate="dateToday"
+          :format="formatDatepicker(newDate)"
+          :clearable="false"
+          class="todos-form-add__datepicker"
         />
       </div>
       <button class="button button--filled">
@@ -35,13 +45,17 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 import { useTodosStore } from '@/stores/todosStore';
+import { useDate } from '@/features/useDate';
 
 export default defineComponent({
   name: 'TodosFormAdd',
   setup() {
     const { addTodo, cancelEditTodo } = useTodosStore();
+    const { formatDatepicker } = useDate();
     const isFormVisible = ref(false);
     const todoText = ref('');
+    const dateToday = new Date();
+    const newDate = ref(dateToday);
 
     const showForm = (): void => {
       isFormVisible.value = true;
@@ -57,6 +71,7 @@ export default defineComponent({
         id: Date.now(),
         text: todoText.value,
         completed: false,
+        date: newDate.value,
       });
 
       todoText.value = '';
@@ -66,10 +81,13 @@ export default defineComponent({
     return {
       isFormVisible,
       todoText,
+      newDate,
+      dateToday,
       showForm,
       closeForm,
       addTodo,
       addNewTask,
+      formatDatepicker,
     };
   },
 });

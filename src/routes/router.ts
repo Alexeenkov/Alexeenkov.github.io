@@ -5,6 +5,6 @@ export const router = createRouter({
   routes: [{
     name: 'Todos',
     path: '/',
-    component: () => import('@/pages/TodosPage/TodosPage.vue'),
+    component: () => import('@/pages/TodosPage.vue'),
   }],
 });
