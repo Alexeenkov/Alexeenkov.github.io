@@ -101,7 +101,7 @@ const {
   toggleTodo,
   removeTodo,
   editTodo,
-  saveEditingTodo,
+  saveEditedTodo,
   cancelEditTodo,
 } = dataTodosStore;
 
@@ -133,7 +133,7 @@ const toggleThisTask = () => {
 };
 
 const saveEditTask = () => {
-  saveEditingTodo(
+  saveEditedTodo(
     unref(todo).id,
     unref(newText),
     unref(changedDate),

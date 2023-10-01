@@ -53,7 +53,7 @@ export const useTodosStore = defineStore('todos', () => {
   });
 
   const setFilteredDate = (date: Date | null): void => {
-    if (date === null) {
+    if (!date) {
       filteredDate.value = null;
       return;
     }
@@ -104,7 +104,7 @@ export const useTodosStore = defineStore('todos', () => {
     editableTodo.value.id = id;
   };
 
-  const saveEditingTodo = (id: number, newText: string, date: Date): void => {
+  const saveEditedTodo = (id: number, newText: string, date: Date): void => {
     const targetTodo = unref(todos).find((todo: Todo) => todo.id === id);
 
     if (targetTodo) {
@@ -144,6 +144,6 @@ export const useTodosStore = defineStore('todos', () => {
     editTodo,
     toggleTodo,
     cancelEditTodo,
-    saveEditingTodo,
+    saveEditedTodo,
   };
 });
