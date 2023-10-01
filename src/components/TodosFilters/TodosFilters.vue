@@ -19,9 +19,9 @@ import { useTodosStore } from '@/stores/todosStore';
 import { Filters } from '@/constants/Filters';
 import { storeToRefs } from 'pinia';
 
-const todosStore = useTodosStore();
-const { activeFilter } = storeToRefs(todosStore);
-const { setFilter } = todosStore;
+const dataTodosStore = useTodosStore();
+const { activeFilter } = storeToRefs(dataTodosStore);
+const { setFilter } = dataTodosStore;
 
 const filters = [
   Filters.ALL,

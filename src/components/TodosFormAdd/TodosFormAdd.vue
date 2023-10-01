@@ -23,7 +23,7 @@
           v-model="newDate"
           :enableTimePicker="false"
           :minDate="dateToday"
-          :format="formatDatepicker(newDate)"
+          :format="formatDatepicker"
           :clearable="false"
           class="todos-form-add__datepicker"
         />
@@ -45,14 +45,14 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { useTodosStore } from '@/stores/todosStore';
-import { useDate } from '@/features/useDate';
+import { useDateParser } from '@/features/useDateParser';
 
 const { addTodo, cancelEditTodo } = useTodosStore();
-const { formatDatepicker } = useDate();
 const isFormVisible = ref(false);
 const todoText = ref('');
 const dateToday = new Date();
 const newDate = ref(dateToday);
+const { formatDatepicker } = useDateParser(newDate);
 
 const showForm = (): void => {
   isFormVisible.value = true;
