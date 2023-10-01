@@ -48,7 +48,6 @@ export const useTodosStore = defineStore('todos', () => {
     }
 
     const millisecondsPerDay = 86400000;
-    console.log('Фильтрация по дате сработала!');
     return unref(filteredTodosByActive).filter((todo) => todo.date > unref(filteredDate)! && todo.date < unref(filteredDate)! + millisecondsPerDay);
   });
 
