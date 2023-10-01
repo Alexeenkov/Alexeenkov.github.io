@@ -9,7 +9,6 @@ import {
 } from 'vue';
 import { Todo } from '@/interfaces/Todo';
 import { Stats } from '@/interfaces/Stats';
-import { Filter } from '@/interfaces/Filter';
 import { Filters } from '@/constants/Filters';
 import { EditableTodo } from '@/interfaces/EditableTodo';
 
@@ -17,6 +16,7 @@ export const useTodosStore = defineStore('todos', () => {
   const todos: Ref<Todo[]> = ref([]);
   const activeFilter = ref(Filters.ALL);
   const isSortEarlyFirst = ref(true);
+  const filteredDate: Ref<null | number> = ref(null);
   const editableTodo: Ref<EditableTodo> = ref({
     isEditing: false,
     id: null,
@@ -30,7 +30,7 @@ export const useTodosStore = defineStore('todos', () => {
     done: unref(doneTodos).length,
   }));
 
-  const filteredTodos: ComputedRef<Todo[]> = computed(() => {
+  const filteredTodosByActive: ComputedRef<Todo[]> = computed(() => {
     switch (unref(activeFilter)) {
       case (Filters.DONE):
         return unref(todos).filter((todo) => todo.completed);
@@ -41,6 +41,24 @@ export const useTodosStore = defineStore('todos', () => {
         return unref(todos);
     }
   });
+
+  const filteredTodos: ComputedRef<Todo[]> = computed(() => {
+    if (unref(filteredDate) === null) {
+      return unref(filteredTodosByActive);
+    }
+
+    const millisecondsPerDay = 86400000;
+    console.log('Фильтрация по дате сработала!');
+    return unref(filteredTodosByActive).filter((todo) => todo.date > unref(filteredDate)! && todo.date < unref(filteredDate)! + millisecondsPerDay);
+  });
+
+  const setFilteredDate = (date: Date | null): void => {
+    if (date === null) {
+      filteredDate.value = null;
+      return;
+    }
+    filteredDate.value = new Date(date.toDateString()).getTime();
+  };
 
   const sortTodosByDate = (): void => {
     if (unref(isSortEarlyFirst)) {
@@ -60,7 +78,7 @@ export const useTodosStore = defineStore('todos', () => {
     editableTodo.value.id = null;
   };
 
-  const setFilter = (filter: Filter): void => {
+  const setFilter = (filter: Filters): void => {
     activeFilter.value = filter;
     cancelEditTodo();
   };
@@ -114,9 +132,11 @@ export const useTodosStore = defineStore('todos', () => {
     todos,
     activeFilter,
     isSortEarlyFirst,
+    filteredDate,
     editableTodo,
     filteredTodos,
     stats,
+    setFilteredDate,
     toggleSortOrder,
     setFilter,
     removeTodo,

@@ -25,6 +25,7 @@ module.exports = {
     'no-shadow': 'off',
     'no-underscore-dangle': 'off',
     'vuejs-accessibility/form-control-has-label': 'off',
+    '@typescript-eslint/no-non-null-assertion': 'off',
     '@typescript-eslint/no-shadow': 'warn',
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',

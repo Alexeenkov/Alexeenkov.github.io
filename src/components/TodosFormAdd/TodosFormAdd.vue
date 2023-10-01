@@ -20,7 +20,7 @@
           />
         </div>
         <VueDatePicker
-          v-model="newDate"
+          v-model="changedDate"
           :enableTimePicker="false"
           :minDate="dateToday"
           :format="formatDatepicker"
@@ -51,8 +51,8 @@ const { addTodo, cancelEditTodo } = useTodosStore();
 const isFormVisible = ref(false);
 const todoText = ref('');
 const dateToday = new Date();
-const newDate = ref(dateToday);
-const { formatDatepicker } = useDateParser(newDate);
+const changedDate = ref(dateToday);
+const { formatDatepicker } = useDateParser(changedDate);
 
 const showForm = (): void => {
   isFormVisible.value = true;
@@ -68,7 +68,7 @@ const addNewTask = (): void => {
     id: Date.now(),
     text: todoText.value,
     completed: false,
-    date: newDate.value.getTime(),
+    date: changedDate.value.getTime(),
   });
 
   todoText.value = '';

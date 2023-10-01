@@ -28,12 +28,12 @@ const { filteredTodos, activeFilter } = storeToRefs(useTodosStore());
 const emptyMessage = computed((): string => {
   switch (unref(activeFilter)) {
     case (Filters.DONE):
-      return 'You have not completed any tasks';
+      return 'No completed any tasks';
     case (Filters.ACTIVE):
       return 'No active tasks';
     case Filters.ALL:
     default:
-      return 'Add your first task';
+      return 'There are no tasks';
   }
 });
 </script>

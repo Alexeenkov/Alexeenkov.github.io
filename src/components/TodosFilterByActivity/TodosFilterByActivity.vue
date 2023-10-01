@@ -14,7 +14,6 @@
 
 <script setup lang="ts">
 import { unref } from 'vue';
-import { Filter } from '@/interfaces/Filter';
 import { useTodosStore } from '@/stores/todosStore';
 import { Filters } from '@/constants/Filters';
 import { storeToRefs } from 'pinia';
@@ -29,11 +28,11 @@ const filters = [
   Filters.DONE,
 ];
 
-const buttonClasses = (filter: Filter) => ({
+const buttonClasses = (filter: Filters) => ({
   'button--primary': unref(activeFilter) === filter,
 });
 </script>
 
 <style scoped lang="scss">
-  @import "@/components/TodosFilters/styles/todos-filters";
+  @import "@/components/TodosFilterByActivity/styles/todos-filter-by-activity";
 </style>

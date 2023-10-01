@@ -1,9 +1,10 @@
 .todos-page {
-  &__filters {
+  &__filter-activity {
     flex-grow: 1;
   }
 
-  &__sort {
+  &__sort,
+  &__filter-date {
     margin-left: 1rem;
   }
 }

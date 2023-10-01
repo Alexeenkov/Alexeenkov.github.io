@@ -1,5 +1,7 @@
 .layout-default {
+  width: 100%;
   max-width: 55rem;
+  margin: 3rem auto;
 
   &__filters {
     display: flex;
