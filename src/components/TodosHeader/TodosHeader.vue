@@ -7,13 +7,6 @@
     </RouterLink>
   </header>
 </template>
-<script lang="ts">
-import { defineComponent } from 'vue';
-
-export default defineComponent({
-  name: 'TodosHeader',
-});
-</script>
 
 <style scoped lang="scss">
   @import "@/components/TodosHeader/styles/todos-header";

@@ -4,21 +4,11 @@
   </footer>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
+<script setup lang="ts">
 import { useTodosStore } from '@/stores/todosStore';
 import { storeToRefs } from 'pinia';
 
-export default defineComponent({
-  name: 'TodosFooter',
-  setup() {
-    const { stats } = storeToRefs(useTodosStore());
-
-    return {
-      stats,
-    };
-  },
-});
+const { stats } = storeToRefs(useTodosStore());
 </script>
 
 <style scoped lang="scss">

@@ -17,7 +17,7 @@ export const useTodosStore = defineStore('todos', () => {
   const todos: Ref<Todo[]> = ref([]);
   const activeFilter = ref(Filters.ALL);
   const todoEditing: Ref<TodoEditing> = ref({
-    editing: false,
+    isEditing: false,
     id: null,
   });
 
@@ -42,7 +42,7 @@ export const useTodosStore = defineStore('todos', () => {
   });
 
   const cancelEditTodo = () => {
-    todoEditing.value.editing = false;
+    todoEditing.value.isEditing = false;
     todoEditing.value.id = null;
   };
 
@@ -68,7 +68,7 @@ export const useTodosStore = defineStore('todos', () => {
   };
 
   const editTodo = (id: number): void => {
-    todoEditing.value.editing = true;
+    todoEditing.value.isEditing = true;
     todoEditing.value.id = id;
   };
 

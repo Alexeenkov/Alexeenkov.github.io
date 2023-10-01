@@ -42,55 +42,38 @@
   </section>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref } from 'vue';
+<script setup lang="ts">
+import { ref } from 'vue';
 import { useTodosStore } from '@/stores/todosStore';
 import { useDate } from '@/features/useDate';
 
-export default defineComponent({
-  name: 'TodosFormAdd',
-  setup() {
-    const { addTodo, cancelEditTodo } = useTodosStore();
-    const { formatDatepicker } = useDate();
-    const isFormVisible = ref(false);
-    const todoText = ref('');
-    const dateToday = new Date();
-    const newDate = ref(dateToday);
+const { addTodo, cancelEditTodo } = useTodosStore();
+const { formatDatepicker } = useDate();
+const isFormVisible = ref(false);
+const todoText = ref('');
+const dateToday = new Date();
+const newDate = ref(dateToday);
 
-    const showForm = (): void => {
-      isFormVisible.value = true;
-      cancelEditTodo();
-    };
+const showForm = (): void => {
+  isFormVisible.value = true;
+  cancelEditTodo();
+};
 
-    const closeForm = (): void => {
-      isFormVisible.value = false;
-    };
+const closeForm = (): void => {
+  isFormVisible.value = false;
+};
 
-    const addNewTask = (): void => {
-      addTodo({
-        id: Date.now(),
-        text: todoText.value,
-        completed: false,
-        date: newDate.value,
-      });
+const addNewTask = (): void => {
+  addTodo({
+    id: Date.now(),
+    text: todoText.value,
+    completed: false,
+    date: newDate.value,
+  });
 
-      todoText.value = '';
-      closeForm();
-    };
-
-    return {
-      isFormVisible,
-      todoText,
-      newDate,
-      dateToday,
-      showForm,
-      closeForm,
-      addTodo,
-      addNewTask,
-      formatDatepicker,
-    };
-  },
-});
+  todoText.value = '';
+  closeForm();
+};
 </script>
 
 <style scoped lang="scss">

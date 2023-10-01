@@ -72,11 +72,10 @@
   </li>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import {
   PropType,
   computed,
-  defineComponent,
   toRefs,
   ref,
   unref,
@@ -88,81 +87,60 @@ import { useTodosStore } from '@/stores/todosStore';
 import { storeToRefs } from 'pinia';
 import { useDate } from '@/features/useDate';
 
-export default defineComponent({
-  name: 'TodosItem',
-  props: {
-    todo: {
-      type: Object as PropType<Todo>,
-      required: true,
-    },
+const props = defineProps({
+  todo: {
+    type: Object as PropType<Todo>,
+    required: true,
   },
-  setup(props) {
-    const { todo } = toRefs(props);
-    const todosStore = useTodosStore();
-    const { todoEditing } = storeToRefs(todosStore);
-    const {
-      toggleTodo,
-      removeTodo,
-      editTodo,
-      saveEditingTodo,
-      cancelEditTodo,
-    } = todosStore;
-    const { dateParser, formatDatepicker } = useDate();
-    const newText: Ref<string> = ref(unref(todo).text);
+});
 
-    const dateTodo = new Date(unref(todo).date);
-    const newDate = ref(dateTodo);
-    const dateToday = new Date();
+const { todo } = toRefs(props);
+const todosStore = useTodosStore();
+const { todoEditing } = storeToRefs(todosStore);
+const {
+  toggleTodo,
+  removeTodo,
+  editTodo,
+  saveEditingTodo,
+  cancelEditTodo,
+} = todosStore;
+const { dateParser, formatDatepicker } = useDate();
+const newText: Ref<string> = ref(unref(todo).text);
 
-    const editingThisTodo = computed(() => unref(todoEditing).editing && unref(todoEditing).id === unref(todo).id);
-    const {
-      day,
-      month,
-      year,
-    } = dateParser(dateTodo);
+const dateTodo = new Date(unref(todo).date);
+const newDate = ref(dateTodo);
+const dateToday = new Date();
 
-    const todoItemClasses = computed(() => ({
-      'todos-item--done': unref(todo).completed && !unref(editingThisTodo),
-      'todos-item--disabled': unref(todoEditing).editing && unref(todoEditing).id !== unref(todo).id,
-      'todos-item--editing': unref(editingThisTodo),
-    }));
+const editingThisTodo = computed(() => unref(todoEditing).isEditing && unref(todoEditing).id === unref(todo).id);
+const {
+  day,
+  month,
+  year,
+} = dateParser(dateTodo);
 
-    const toggleThisTask = () => {
-      if (unref(todoEditing).editing) {
-        return;
-      }
+const todoItemClasses = computed(() => ({
+  'todos-item--done': unref(todo).completed && !unref(editingThisTodo),
+  'todos-item--disabled': unref(todoEditing).isEditing && unref(todoEditing).id !== unref(todo).id,
+  'todos-item--editing': unref(editingThisTodo),
+}));
 
-      toggleTodo(unref(todo).id);
-    };
+const toggleThisTask = () => {
+  if (unref(todoEditing).isEditing) {
+    return;
+  }
 
-    const cancelEditTask = () => {
-      cancelEditTodo();
-      newText.value = unref(todo).text;
-    };
+  toggleTodo(unref(todo).id);
+};
 
-    onBeforeUnmount(() => {
-      if (unref(editingThisTodo)) {
-        cancelEditTodo();
-      }
-    });
+const cancelEditTask = () => {
+  cancelEditTodo();
+  newText.value = unref(todo).text;
+};
 
-    return {
-      newText,
-      newDate,
-      dateToday,
-      day,
-      month,
-      year,
-      todoItemClasses,
-      editingThisTodo,
-      toggleThisTask,
-      removeTodo,
-      editTodo,
-      cancelEditTask,
-      saveEditingTodo,
-      formatDatepicker,
-    };
-  },
+onBeforeUnmount(() => {
+  if (unref(editingThisTodo)) {
+    cancelEditTodo();
+  }
 });
 </script>
 

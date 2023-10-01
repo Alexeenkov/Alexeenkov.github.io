@@ -12,39 +12,25 @@
   </aside>
 </template>
 
-<script lang="ts">
-import {
-  defineComponent,
-  unref,
-} from 'vue';
+<script setup lang="ts">
+import { unref } from 'vue';
 import { Filter } from '@/interfaces/Filter';
 import { useTodosStore } from '@/stores/todosStore';
 import { Filters } from '@/constants/Filters';
 import { storeToRefs } from 'pinia';
 
-export default defineComponent({
-  name: 'TodosFilters',
-  setup() {
-    const todosStore = useTodosStore();
-    const { activeFilter } = storeToRefs(todosStore);
-    const { setFilter } = todosStore;
+const todosStore = useTodosStore();
+const { activeFilter } = storeToRefs(todosStore);
+const { setFilter } = todosStore;
 
-    const filters = [
-      Filters.ALL,
-      Filters.ACTIVE,
-      Filters.DONE,
-    ];
+const filters = [
+  Filters.ALL,
+  Filters.ACTIVE,
+  Filters.DONE,
+];
 
-    const buttonClasses = (filter: Filter) => ({
-      'button--primary': unref(activeFilter) === filter,
-    });
-
-    return {
-      filters,
-      setFilter,
-      buttonClasses,
-    };
-  },
+const buttonClasses = (filter: Filter) => ({
+  'button--primary': unref(activeFilter) === filter,
 });
 </script>
 

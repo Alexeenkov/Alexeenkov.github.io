@@ -1,4 +1,4 @@
 export interface TodoEditing {
-  editing: boolean,
+  isEditing: boolean,
   id: number | null,
 }
